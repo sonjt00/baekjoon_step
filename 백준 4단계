@@ -1,0 +1,107 @@
+(1)
+n = 0;
+_ = int(input());
+nums = map(int, input().split());
+t = int(input());
+for num in nums:
+  if t==num:
+    n+= 1;
+print(n);
+
+(2)
+N, X = map(int, input().split());
+nums = input().split();
+for num in nums:
+  if(int(num) < X):
+    print(int(num), end=" ");
+
+(3)
+N = int(input());
+s_nums = input().split();
+i_nums = [int(num) for num in s_nums];
+c = 0;
+min = max = i_nums[c]
+c += 1;
+while c < len(i_nums):
+  if (i_nums[c] < min):
+    min = i_nums[c];
+  if (i_nums[c] > max):
+    max = i_nums[c];
+  c += 1;
+print("%d %d" %(min, max));
+
+(4)
+max = 0;
+m_i = 0;
+c = 0;
+for i in range(9):
+  c = int(input());
+  if (c > max):
+    max = c;
+    m_i = i;
+print("%d\n%d" %(max, m_i + 1));
+
+(5)
+N, M  = map(int, input().split());
+baskets = [0] * N;
+for i in range(M):
+  start, end, num = map(int, input().split());
+  for k in range(start-1, end):
+    baskets[k] = num;
+for each in baskets:
+  print(each, end=" ");
+
+(6)
+N, M = map(int, input().split());
+baskets = [0] * N;
+for i in range(N):
+  baskets[i] = i+1;
+for i in range(M):
+  ba1, ba2 = map(int, input().split());
+  temp = baskets[ba1-1];
+  baskets[ba1-1] = baskets[ba2-1];
+  baskets[ba2-1] = temp;
+for ba in baskets:
+  print(ba, end=" ");
+
+(7)
+std = [0]*30;
+for i in range(28):
+  s = int(input());
+  std[s-1] = 1;
+for i in range(30):
+  if std[i] == 0:
+    print(i+1);
+
+(8)
+lefts = []
+for i in range(10):
+  lefts.append(int(input()) % 42);
+print(len(set(lefts)));
+
+(9)
+N, M = map(int, input().split());
+bas = [0] * N;
+for i in range(N):
+  bas[i] = i + 1;
+for i in range(M):
+  temp = [];
+  si, ei = map(int, input().split());
+  for k in range(ei-1, si-2, -1):
+    temp.append(bas[k]);
+  bas[si-1:ei] = temp;
+for ba in bas:
+  print(ba, end=" ");
+
+(10)
+N = int(input());
+scores = [int(s) for s in input().split()];
+max = 0;
+ave = 0;
+for sco in scores:
+  if sco>max:
+    max = sco;
+for i in range(len(scores)):
+  ave += scores[i]/max*100;
+print(ave/N);
+
