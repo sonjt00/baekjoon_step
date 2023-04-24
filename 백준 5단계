@@ -1,0 +1,73 @@
+(1)
+string = input();
+print(string[int(input())-1]);
+
+(2)
+n = int(input());
+for i in range(n):
+  str = input();
+  print("%c%c" %(str[0], str[-1]));
+
+(3)
+n = int(input());
+str = input();
+hap = 0;
+for i in range(n):
+  hap+= int(str[i]);
+print(hap);
+
+(4)
+alpha = [-1] * 26;
+word = input();
+index = 0;
+for ch in word:
+  al = ord(ch) - ord('a');
+  if alpha[al] == -1:
+    alpha[al] = index;
+  index += 1; 
+for a in alpha:
+  print(a, end=" ");
+
+(5)
+t = int(input());
+for i in range(t):
+  N, S = input().split();
+  ret = [];
+  for ch in S:
+    ret += [ch]*int(N);
+  for r in ret:
+    print(r, end="");
+  print("");
+
+(6)
+num1, num2 = input().split();
+tmp = "";
+for i in range(len(num1)-1, -1, -1):
+  tmp+= num1[i];
+num1 = tmp;
+tmp = "";
+for i in range(len(num2)-1, -1, -1):
+  tmp+= num2[i];
+num2 = tmp;
+if int(num1) > int(num2) :
+  print(int(num1));
+else :
+  print(int(num2));
+
+(7)
+ret = 0;
+for ch in input():
+  diff = ord(ch) - ord('A');
+  if diff < 15 :
+    ret = ret + 3 + (diff // 3);
+  elif diff >= 15 and diff < 19:
+    ret = ret + 8;
+  elif diff >=19 and diff <22:
+    ret = ret + 9;
+  elif diff >= 22:
+    ret = ret + 10;
+print(ret)
+
+(8)
+
+
