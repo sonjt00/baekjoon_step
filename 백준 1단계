@@ -1,0 +1,63 @@
+# (1)
+print('Hello World!');
+
+# (2)
+a,b  = map(int, input().split());
+print(a+b);
+
+# (3)
+a,b  = map(int, input().split());
+print(a-b);
+
+# (4)
+a,b  = map(int, input().split());
+print(a*b);
+
+# (5)
+a,b  = map(int, input().split());
+print(a/b);
+
+# (6)
+a,b = map(int, input().split());
+print("%d\n%d\n%d\n%d\n%d" %(a+b, a-b, a*b, a/b, a%b));
+
+# (7)
+name = input();
+print("%s??!" %name);
+
+# (8)
+diff = 2541 - 1998;
+print(int(input()) - diff);
+
+# (9)
+A,B,C = map(int, input().split());
+print("%d\n%d\n%d\n%d"
+      %(((A+B)%C), (((A%C) + (B%C))%C), ((A*B)%C), (((A%C) * (B%C))%C)));
+   
+# (10)
+num1 = int(input());
+num2 = input();
+res1 = num1 * int(num2[2]);
+res2 = num1 * int(num2[1]);
+res3 = num1 * int(num2[0]);
+res4 = res1 + (res2 * 10) + (res3 * 100);
+print("%d\n%d\n%d\n%d" %(res1, res2, res3, res4));
+
+# (11)
+A,B,C = map(int, input().split());
+print(A+B+C);
+
+# (12)
+print("%s\n%s\n%s\n%s"
+      %('\\    /\\', 
+        ' )  ( \')', 
+        '(  /  )',
+        ' \\(__)|'));
+
+# (13)
+print("%s\n%s\n%s\n%s\n%s" 
+      %('|\\_/|',
+        '|q p|   /}',
+        '( 0 )"""\\',
+        '|"^"`    |',
+        '||_/=\\\\__|'));
