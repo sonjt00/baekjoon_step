@@ -1,0 +1,69 @@
+(1)
+a = int(input());
+for i in range(1, 10):
+  print("%d * %d = %d" %(a, i, a * i));
+
+(2)
+n = int(input());
+sums = [];
+for i in range(n):
+  a,b = map(int, input().split());
+  sums.append(a + b);
+for s in sums:
+  print(s);
+
+(3)
+n = int(input());
+sum = 0;
+for i in range(1, n+1):
+  sum += i;
+print(sum);
+
+(4)
+cal = 0;
+sum = int(input());
+type = int(input());
+goods = {};
+for i in range(type):
+  p, n = map(int, input().split());
+  if p in goods.keys():
+    goods[p] += n;
+  else:
+    goods[p] = n;
+for k in goods.keys():
+  cal += k * goods[k];
+if cal == sum :
+  print("Yes");
+else :
+  print("No");
+
+(5)
+n = int(input()) // 4;
+print('long '* n + 'int');
+
+(6)
+len = int(input());
+for i in range(len):
+  a, b = map(int, input().split());
+  print("Case #%d: %d + %d = %d" %(i+1, a, b, a+b));
+
+(7)
+len = int(input());
+for i in range(len):
+  print(" "*(len-i-1)  + "*"*(i+1));
+
+(8)
+while True:
+  a, b = map(int, input().split());
+  if a==0 and b==0 :
+    break;
+  print(a+b);
+
+(9)
+while True :
+  try :
+    a, b = map(int, input().split());
+    print(a+b);
+  except :
+    break;
+
