@@ -1,0 +1,79 @@
+(1)
+a,b = map(int, input().split());
+if (a > b): print('>');
+elif (a < b ): print('<');
+else : print('==');
+
+(2)
+a = int(input());
+if (a <= 100 and a >= 0):
+  if (a >= 90) : print('A');
+  elif (a >= 80) : print('B');
+  elif (a >= 70) : print('C');
+  elif (a >= 60) : print('D');
+  else : print('F');
+
+(3)
+y = int(input());
+if ((y%4==0 and y%100!=0) or (y%400==0)): print(1);
+else : print(0);
+
+
+(4)
+x = int(input());
+y = int(input());
+if (x>0) : 
+  if (y>0) : print(1);
+  else : print(4);
+else :
+  if (y>0) : print(2);
+  else : print(3);
+
+
+(5)
+h, m = map(int, input().split());
+diff = 45;
+if (m>=diff) : print("%d %d" %(h, m - diff));
+else :
+  if h==0 : print("%d %d" %(23, 60 - (diff-m)));
+  else : print("%d %d" %(h-1, 60 - (diff-m)));
+
+
+(6)
+h, m = map(int, input().split());
+t = int(input());
+if (m+t)<60 : print("%d %d" %(h, m + t));
+else :
+  h += (m+t) // 60;
+  m = (m+t) % 60;
+  if h>=24 : print("%d %d" %(h-24, m));
+  else : print("%d %d" %(h, m));
+
+
+(7)
+a,b,c = map(int, input().split());
+if (a==b) :
+  if (b==c) :
+    print(10000 + a*1000);
+  else :
+    print(1000 + a*100);
+else :
+  if (b==c):
+    print(1000 + b*100);
+  elif (a==c) :
+    print(1000 + a*100);
+  else :
+    if (a>=b) :
+      if (b>=c) :
+        print(a*100);
+      else :
+        if (a>=c) :
+          print(a*100);
+        else :
+          print(c*100);
+    else :
+      if (b >= c) :
+        print(b*100);
+      else :
+        print(c*100);
+
