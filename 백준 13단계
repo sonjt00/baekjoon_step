@@ -1,0 +1,184 @@
+# 정렬
+
+(1)
+N = int(input());
+nums = [];
+for i in range(N):
+  nums.append(int(input()));
+for i in range(N-1):
+  for k in range(i+1, N):
+    if nums[i] > nums[k]:
+      temp = nums[i];
+      nums[i] = nums[k];
+      nums[k] = temp;
+for i in range(N):
+  print(nums[i]);
+
+(2)
+nums = [];
+ave = 0;
+for i in range(5):
+  num = int(input());
+  nums.append(num);
+  ave += num;
+ave /= 5;
+for i in range(4):
+  for k in range(i+1, 5):
+    if nums[i] > nums[k]:
+      temp = nums[i];
+      nums[i] = nums[k];
+      nums[k]= temp;
+print("%d\n%d" %(ave, nums[2]));
+
+(3)
+N, K = map(int, input().split());
+scores = list(map(int, input().split()));
+for i in range(N-1):
+  for k in range(i+1, N):
+    if scores[i] < scores[k]:
+      temp = scores[i];
+      scores[i] = scores[k];
+      scores[k] = temp;
+print(scores[K-1]);
+
+(4)
+N = int(input());
+nums = [int(input()) for _ in range(N)];
+def QS(li):
+  if len(li) < 2:
+    return li;
+  p_i = len(li) - 1;
+  p = li[p_i];
+  over = 0;
+  for i in range(0, p_i):
+    if li[i-over] > p:
+      temp = li[i-over];
+      li[i-over:i-over+1] = [];
+      li.append(temp);
+      p_i -= 1;
+      over += 1;
+  return QS(li[0:p_i]) + [p] + QS(li[p_i+1:]);
+for num in QS(nums):
+  print(num);
+
+(5)
+N = int(input());
+nums = {};
+for _ in range(N):
+  num = int(input());
+  if num in nums.keys():
+    nums[num] += 1;
+  else:
+    nums[num] = 1;
+for num in sorted(nums.items(), key=lambda x:x[0]):
+  for i in range(num[1]):
+    print(num[0]);
+
+(6)
+num = input();
+nums = [int(num[i]) for i in range(len(num))];
+def QS(li):
+  if len(li) < 2:
+    return li;
+  pi = len(li) - 1;
+  p = li[pi];
+  over = 0;
+  for i in range(0, len(li)-1):
+    if li[i-over] < p:
+      li.append(li[i-over]);
+      li[i-over:i-over+1] = [];
+      over += 1;
+      pi -= 1;
+  return QS(li[:pi]) + [p] + QS(li[pi+1:]);
+for num in QS(nums):
+  print(num, end="");
+
+(7)
+N = int(input());
+cor = [];
+for _ in range(N):
+  x, y = map(int, input().split());
+  cor.append([x, y]);
+for i in range(N-1):
+  for k in range(i+1, N):
+    if cor[i][0] > cor[k][0]:
+      temp = cor[i];
+      cor[i] = cor[k];
+      cor[k] = temp;
+    elif cor[i][0] == cor[k][0]:
+      if cor[i][1] > cor[k][1]:
+        temp = cor[i];
+        cor[i] = cor[k];
+        cor[k] = temp;
+for co in cor:
+  print("%d %d"%(co[0], co[1]));
+
+(8)
+N = int(input());
+cor = [list(map(int, input().split())) for _ in range(N)];
+# 2차원 cor 퀵 정렬
+def QS(li):
+  if len(li) < 2:
+    return li;
+  pi = len(li)-1;
+  p = li[pi];
+  over = 0;
+  for i in range(len(li)-1):
+    if li[i-over][0] == p[0]:
+      if li[i-over][1] > p[1]:
+        temp = li[i-over];
+        li[i-over:i-over+1] = [];
+        li.append(temp);
+        over += 1;
+        pi -= 1; 
+    elif li[i-over][0] > p[0]:
+      temp = li[i-over];
+      li[i-over:i-over+1] = [];
+      li.append(temp);
+      over += 1;
+      pi -= 1;
+    return QS(li[:pi]) + [p] + QS(li[pi+1:]);
+for co in QS(cor):
+  print("%d %d"%(co[0], co[1]));
+
+(9)
+# lambda Function에 n번째 키까지, 튜플로서 전달가능하다.
+N = int(input());
+cor = [list(map(int, input().split())) for _ in range(N)];
+for dot in sorted(cor, key=lambda x : (x[0], x[1])):
+  print(dot[0], dot[1]);
+
+(10)
+N = int(input());
+dots = [list(map(int, input().split())) for _ in range(N)];
+for dot in sorted(dots, key = lambda x : (x[1], x[0])):
+  print(dot[0], dot[1]);
+
+(11)
+N = int(input());
+words = [input() for _ in range(N)];
+exist = [];
+for word in sorted(words, key = lambda x : (len(x), x)):
+  if word not in exist:
+    print(word);
+    exist.append(word);
+
+(12)
+people = [list(input().split()) + [i] for i in range(int(input()))];
+print(people);
+ps = sorted(people, key = lambda x : (int(x[0]), x[2]));
+print(ps);
+for i in range(len(people)):
+  print("%d %s" %(int(ps[i][0]), ps[i][1]));
+
+(13)
+N = int(input());
+nums = list(map(int, input().split()));
+sort_nums = sorted(set(nums))
+index_dict = {};
+for i in range(len(sort_nums)):
+  index_dict[sort_nums[i]] = i;
+for i in range(N):
+  print(index_dict[nums[i]], end=" ");
+
+
