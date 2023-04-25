@@ -1,0 +1,106 @@
+(1)
+while True:
+    num1, num2 = map(int, input().split());
+    if (num1 == num2 and num2 == 0):
+      break;
+    else :
+      if (num2 % num1== 0):
+        print("factor");
+      elif (num1 % num2 == 0):
+        print("multiple");
+      else:
+        print("neither");
+
+(2)
+num1, num2 = map(int, input().split());
+index = 0;
+for i in range(1, num1+1):
+  if num1 % i == 0:
+    index += 1;
+  if index == num2:
+    print(i);
+    break;
+if (i == num1) and (index != num2):
+  print(0);
+
+(3)
+while True :
+  num = int(input());
+  if (num == -1):
+    break;
+  lists = [];
+  sum = 0;
+  for i in range(1, int(num/2)+1):
+    if num % i == 0:
+      lists.append(i);
+      sum += i;
+  if (sum != num):
+    print("%d is NOT perfect." %num);
+  else :
+    print("%d = " %sum, end="");
+    for l in lists:
+      if l == lists[0]:
+        print("%d " %l,  end="");
+      else:
+        print("+ %d " %l, end="");
+    print("");
+
+(4)
+count = int(input());
+nums = [int(n) for n in input().split()];
+total = 0;
+for n in nums:
+  if n == 1:
+    continue;
+  elif n == 2:
+    total += 1;
+    continue;
+  whether = 0;
+  for i in range(2, int(n/2)+1):
+    if (n % i == 0):
+      whether = 1;
+  if whether == 0:
+    total += 1;
+print(total);
+
+(5)
+num1 = int(input());
+num2 = int(input());
+sum = 0;
+min = 0;
+for i in range(num1, num2 + 1):
+  if i == 1:
+    continue;
+  elif i == 2:
+    sum += i;
+    min = i;
+  else:
+    whether = 0;
+    for k in range(2, int(i/2) + 1):
+      if (i % k == 0):
+        whether = 1;
+        break;
+    if whether == 0:
+      sum += i;
+      if min == 0:
+        min = i;
+if (min != 0):
+  print("%d\n%d" %(sum, min));
+else:
+  print(-1);
+
+(6)
+def decomp(num):
+  if num == 1:
+    return;
+  elif num == 2:
+    print(num);
+    return 1;
+  for i in range(2, int(num/2)+1):
+    if (num % i == 0):
+      print(i);
+      return i * decomp(int(num/i));
+  print(num);
+  return 1;
+decomp(int(input()))
+
