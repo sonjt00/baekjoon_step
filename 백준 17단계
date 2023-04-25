@@ -1,0 +1,78 @@
+# 심화2
+
+(1)
+# N의 약수가 주어졌을 시, N 구하기
+count = int(input());
+nums = sorted(map(int, input().split()));
+print(nums[0] * nums[-1]);
+
+(2)
+count = 0;
+logs = set();
+for i in range(int(input())):
+  log = input();
+  if log == 'ENTER':
+    count += len(logs);
+    logs = set();
+  else:
+    logs.add(log);
+count += len(logs);
+print(count);
+
+(3)
+# 붙임성 좋은 총총이
+dancing = {'ChongChong'};
+for i in range(int(input())):
+  meet = set(input().split());
+  if len(dancing&meet) == 1:
+    dancing= dancing | meet;
+print(len(dancing));
+
+(4)
+# 통계학
+nums_d = dict();
+nums_l = list();
+total = 0;
+count = int(input());
+for _ in range(count):
+  num = int(input());
+  if num in nums_d.keys():
+    nums_d[num] += 1;
+  else:
+    nums_d[num] = 1;
+  nums_l.append(num);
+  total += num;
+# Average
+ave = round(total / count);
+# Median
+sort_l = sorted(nums_l);
+med = sort_l[int(count/2)];
+# Scope
+sco = sort_l[-1] - sort_l[0];
+# Mode
+sort_d = sorted(nums_d.items(), key=lambda x : x[1], reverse=True)
+mod = sort_d[0][0]
+if sort_d[0][1] == sort_d[1][1]:
+  least = 0;
+  temp = [];
+  while least < count and sort_d[least][1] == sort_d[0][1]:
+    temp.append(sort_d[least][0])
+    least += 1;
+  mod = sorted(temp)[1];
+print("%d\n%d\n%d\n%d"%(ave, med, mod, sco));
+
+(5)
+# 영단어 암기는 괴로워
+# (1) 빈도 (2) 길이 (3) 사전 순
+N, M = map(int, input().split());
+words = {};
+for _ in range(N):
+  temp = input();
+  if len(temp) >= M:
+    if temp in words.keys():
+      words[temp] += 1;
+    else:
+      words[temp] = 1;
+sort_w = [w for w in sorted(words.items(), key=lambda x : (-1*x[1], -1*len(x[0]), x[0]))];
+for w in sort_w:
+  print(w[0]);
