@@ -1,7 +1,7 @@
 # baekjoon_step
 Ongoing 23.03~
 
-"""
+
 백준 단계별 풀어보기
 https://www.acmicpc.net/step
 
@@ -14,4 +14,3 @@ https://www.acmicpc.net/step
 해당링크의 16단계가 무의미한 절취선으로 되어있기 때문입니다.
 
 코드의 풀이에 대해 궁금하신 점은 연락주시면 감사하겠습니다.
-"""
