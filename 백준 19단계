@@ -1,0 +1,253 @@
+# 큐, 덱
+
+(1)
+# 큐 2
+
+# 시간복잡도 문서 https://wayhome25.github.io/python/2017/06/14/time-complexity/
+# len(list)의 시간복잡도 O(1)
+# list.append(x)의 시간복잡도는 O(1)
+# list.pop(i)의 시간복잡도는 O(N)
+# append와 pop이 자주쓰이는 곳에선, N의 시간복잡도를 가진 list에 대한 pop의 효율성을 제고하기 위해
+# collections.deque 모듈을 사용한다
+# deque는 DoublelyLinkedList로서 구현되어있어, 양쪽이 모두 시작점으로
+# 양 끝에 대해선 O(1)의 시간복잡도로 접근할 수 있기에
+# append, appendleft, pop, popleft 등은 O(1)의 시간복잡도를 가진다.
+
+
+
+from collections import deque
+
+def push(que, x):
+  que.append(x)
+
+def popf(que):
+  if que:
+    return print(que.popleft())
+  print(-1)
+
+def sizef(que):
+  print(len(que))
+
+def emptyf(que):
+  if que:
+    return print(0)
+  print(1)
+
+def frontf(que):
+  if que:
+    return print(que[0])
+  print(-1)
+
+def backf(que):
+  if que:
+    return print(que[-1])
+  print(-1)
+  
+deq=deque()
+funcs={
+    "pop":popf,
+    "size":sizef,
+    "empty":emptyf,
+    "front":frontf,
+    "back":backf
+}
+for i in range(int(input())):
+  order=input()
+  if order[-1].isdigit():
+    push(deq, int(order.split()[1]))
+  else:
+    funcs[order](deq)
+
+(2)
+# 카드2
+from collections import deque
+queue = deque([i for i in range (1,int(input())+1)])
+if len(queue)==1:
+  print(queue.popleft())
+else:
+  while True:
+    queue.popleft()
+    if len(queue)==1:
+      print(queue.popleft())
+      break
+    queue.append(queue.popleft())
+
+(3)
+# 요세푸스 문제 0
+# deque의 rotate활용
+from collections import deque
+N, K = map(int, input().split())
+queue=deque([i for i in range(1, N+1)])
+print("<", end="")
+while len(queue) > 0:
+  queue.rotate(-K+1)
+  if len(queue)!=1:
+    print(queue.popleft(), end=", ")
+  else:
+    print(queue.popleft(), end="")
+print(">")
+
+(4)
+# 프린터 큐
+"""
+sortedList와 deque에 저장하고 로테이트 한다.
+"""
+from collections import deque
+for _ in range(int(input())):
+  N,M=map(int, input().split())
+  que=deque(map(int, input().split()))  
+  targets=deque(sorted(que, reverse=True))
+  count=0
+  status=0
+  while True:
+    if status==1:
+      print(count)
+      break
+    while True:
+      if que[0]==targets[0]:
+        que.popleft()
+        targets.popleft()
+        M-=1
+        count+=1
+        if M==-1:
+          status=1
+        break
+      que.rotate(-1)
+      M-=1
+      if(M==-1):
+        M=len(que)-1
+
+(5)
+# 덱
+
+from collections import deque
+
+def push_front_f(que, x):
+  que.appendleft(x)
+def push_back_f(que, x):
+  que.append(x)
+def pop_front_f(que):
+  if len(que)==0:
+    return print(-1)
+  print(que.popleft())
+def pop_back_f(que):
+  if len(que)==0:
+    return print(-1)
+  print(que.pop())
+def size_f(que):
+  print(len(que))
+def empty_f(que):
+  if len(que)==0:
+    return print(1)
+  print(0)
+def front_f(que):
+  if len(que)==0:
+    return print(-1)
+  print(que[0])
+def back_f(que):
+  if len(que)==0:
+    return print(-1)
+  print(que[-1])
+
+orders = {
+  'push_front' : push_front_f,
+  'push_back' : push_back_f,
+  'pop_front' : pop_front_f,
+  'pop_back' : pop_back_f,
+  'size' : size_f,
+  'empty' : empty_f,
+  'front' : front_f,
+  'back' : back_f
+}
+que = deque()
+
+for _ in range(int(input())):
+  order = input()
+  if order[-1].isdigit():
+    order, num = order.split()
+    orders[order](que, int(num))
+  else:
+    orders[order](que)
+
+(6)
+# 회전하는 큐
+# rotate() method를 통해 구현하기
+from collections import deque
+N,M=map(int, input().split())
+targets=deque(map(int, input().split()))
+que = deque([i for i in range(1, N+1)])
+r,c=0,0
+while c<M:
+  if que[0]==targets[0]:
+    c+=1
+    que.popleft()
+    targets.popleft()
+  else:
+    left,right=0,0
+    while que[0]!=targets[0]:
+      que.rotate(1)
+      right+=1
+    que.rotate(-right)
+    while que[0]!=targets[0]:
+      que.rotate(-1)
+      left+=1
+    if right < left:
+      que.rotate(left+right)
+      r+=right
+    else:
+      r+=left
+print(r)
+
+(7)
+# AC
+# Reverse Delete
+# R 실제로 뒤집지 않고 구현
+# --> status=1 / Reverse시 *= -1
+# --> { 1: popleft, -1 : pop }
+# D  popleft
+
+from collections import deque
+
+
+for _ in range(int(input())):
+  # Input Process
+  order=input()
+  n=input()
+  string=input()
+  if string=='[]':
+    que=deque()
+  else:
+    que = deque([int(num) for num in string.strip('[]').split(',')])
+  status=1
+  error=0
+  # Main Process
+  for ch in order:
+    if ch=='R':
+      status*=-1
+    elif ch=='D':
+      if len(que)==0:
+        error=1
+        break
+      if status==1:
+        que.popleft()
+      else:
+        que.pop()
+  # ErrorDetecting
+  if error==1:
+    print("error")
+    continue
+  # Print Process
+  print("[", end="")
+  if status==1:
+    for i in range(len(que)):
+      if i==0:
+        print(que.popleft(), end="")
+      else:
+        print(",%d" %(que.popleft()), end="")
+  else:
+    for i in range(len(que)):
+      if i==0:
+        print(que.pop(), end="")
+      else:
+        print(",%d" %(que.pop()), end="")
+  print("]")
