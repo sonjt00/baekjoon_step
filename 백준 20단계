@@ -1,0 +1,159 @@
+(1)
+# 팩토리얼 2
+def fac(num):
+  if num==2:
+    return 2
+  elif num<2:
+    return 1
+  return num*fac(num-1)
+print(fac(int(input())))
+
+(2)
+# 피보나치수열
+def fib(num):
+  if num==0:
+    return 0
+  elif num==1:
+    return 1
+  return fib(num-1)+fib(num-2)
+print(fib(int(input())))
+
+(3)
+# 재귀의 귀재
+def pelindrome(word, l, r, t):
+  if l >= r:
+    return 1, t
+  elif word[l] != word[r]:
+    return 0, t
+  return pelindrome(word, l+1, r-1, t+1)
+  
+for _ in range(int(input())):
+  string=input()
+  ret, total = pelindrome(string, 0, len(string)-1, 1)
+  print("%d %d" %(ret, total))
+
+(4)
+# 알고리즘 수업 - 병합 정렬 1
+# 재귀적으로 호출한 하위 함수의 returnValue도 고려!
+def M_sort(li):
+  if len(li)<2:
+    return
+  global temp
+  l,r=0,0
+  mem=[]
+  if len(li)%2==1:
+    left = li[:int(len(li)/2)+1]
+    right = li[int(len(li)/2)+1:]
+  else:
+    left = li[:int(len(li)/2)]
+    right = li[int(len(li)/2):]
+  mem1=M_sort(left)
+  mem2=M_sort(right)
+  if mem1:
+    left=mem1
+  if mem2:
+    right=mem2
+  while l <len(left) and r<len(right):
+    if left[l]<=right[r]:
+      temp.append(left[l])
+      mem.append(left[l])
+      l+=1
+    else:
+      temp.append(right[r])
+      mem.append(right[r])
+      r+=1
+  while l<len(left):
+    temp.append(left[l])
+    mem.append(left[l])
+    l+=1
+  while r<len(right):
+    temp.append(right[r])
+    mem.append(right[r])
+    r+=1
+  return mem
+
+temp=[]
+N,K=map(int, input().split())
+M_sort(list(map(int, input().split())))
+if K<len(temp)+1:
+  print(temp[K-1])
+else:
+  print(-1)
+
+(5)
+# 칸토어 집합
+def Kanto(li, power):
+  if power==0:
+    return li
+  start=int((3**power)/3)
+  end=int((3**power)/3*2)
+  li[start:end]=[' ']*(end-start)
+  return Kanto(li[:start], power-1) + li[start:end] + Kanto(li[end:], power-1)
+
+while True:
+  num = input()
+  if num=="":
+    break
+  ans = Kanto(['-']*(3**int(num)), int(num))
+  for each in ans:
+    print(each, end="")
+  print();
+
+(6)
+# 별 찍기 - 10
+# 하위 재귀함수의 return값 잘 활용하기
+# list에 대해서 슬라이싱할 때, 정교하게 하기
+def blank(li, side):
+  if side==1:
+    return li
+  m_side=int(side/3)
+  for r in range(m_side, 2*m_side):
+    for c in range(m_side, 2*m_side):
+      li[r][c]=' '
+  for i in range(3):
+    rows=li[i*m_side:(i+1)*m_side]
+    for j in range(3):
+      if i==1 and j==1:
+        continue
+      else:
+        temp = blank([list(r[j*m_side:(j+1)*m_side]) for r in rows], m_side)
+        for r in range(len(temp)):
+          li[i*m_side:(i+1)*m_side][r][j*m_side:(j+1)*m_side]=temp[r]
+  return li
+  
+num=int(input())
+origin=[]
+for r in range(num):
+  origin.append(list(['*']*num))
+origin=blank(origin, num)
+for r in range(num):
+  for c in range(num):
+    print(origin[r][c], end="")
+  print("")
+
+(7)
+# 하노이 탑 이동 순서
+"""
+HANOI(N, LEFT, MIDDLE, RIGHT)  LEFT-N개 / MIDDLE-0개 / RIGHT-0개
+(1) HANOI(N-1, LEFT, RIGHT, MIDDLE)
+(2) BottomOfLeft -> RIGHT
+(3) HANOI(N-1,MIDDLE,LEFT,RIGHT)
+"""
+def hanoi(N, left, middle, right):
+  global total
+  global moves
+  if N==1:
+    total+=1
+    moves.append((left, right))
+    return
+  hanoi(N-1, left, right, middle)
+  total+=1
+  moves.append((left, right))
+  hanoi(N-1, middle, left, right)
+
+total=0
+moves=[]
+hanoi(int(input()), 1, 2, 3)
+print(total)
+for move in moves:
+  print("%d %d" %(move[0], move[1]))
