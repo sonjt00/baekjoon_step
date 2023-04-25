@@ -1,0 +1,121 @@
+# 브루트 포스
+(1)
+count, max = map(int, input().split());
+nums = [int(num) for num in input().split()];
+sum = 0;
+for i in range(count-2):
+  for k in range(i+1, count-1):
+    for j in range(k+1, count):
+      cur = 0;
+      cur = nums[i] + nums[j] + nums[k];
+      if cur <= max and cur > sum:
+        sum = cur;
+print(sum);
+
+(2)
+num = int(input());
+gen = 0;
+for i in range(1, num):
+  st_n = str(i);
+  sum = 0;
+  for k in range(len(st_n)):
+    sum += int(st_n[k])
+  sum += i;
+  if (sum == num):
+    gen= i;
+    break;
+print(gen);
+
+
+(3)
+a, b, c, d, e, f = map(float, input().split());
+p = 0;
+for i in range(-999, 1000):
+  for k in range(-999, 1000):
+    if (a*i + b*k == c) and (d*i + e*k == f):
+      print("%d %d" % (i, k));
+      p = 1;
+      break;
+  if p == 1:
+    break;
+
+(4)
+N, M = map(int, input().split());
+board = [];
+least = 64;
+# 체스판 준비
+for n in range(N):
+  row = input();
+  rows = []
+  for m in range(M):
+    rows.append(row[m]);
+  board.append(rows);
+
+for row_s in range(N-7):
+  for col_s in range(M-7):
+    
+    # 슬라이싱
+    temp = board[row_s:row_s+8];
+    new = [];
+    for r in temp:
+      new.append(r[col_s:col_s+8]);
+    
+    # 카운팅
+    starts = ['W', 'B']
+    for i in range(len(starts)):
+      modi = 0;
+      for r in range(8):
+        for c in range(8):
+          if r % 2 == 0:
+            if c % 2 == 0:
+              if new[r][c] != starts[i]:
+                modi += 1;
+            else:
+              if new[r][c] != starts[(i+1)%2]:
+                modi += 1;
+          else:
+            if c % 2 == 0:
+              if new[r][c] != starts[(i+1)%2]:
+                modi += 1;
+            else:
+              if new[r][c] != starts[i]:
+                modi += 1;
+      if modi < least:
+        least = modi;
+
+print(least);
+
+(5)
+count = int(input());
+until = 0;
+num = 665;
+while until < count:
+  num += 1;
+  nums = [];
+  for i in range(len(str(num))):
+    nums.append(int(str(num)[i]));
+  for i in range(0, len(nums)-2):
+    if (nums[i] == nums[i+1]) and (nums[i+1] == nums[i+2]) and (nums[i] == 6):
+      until += 1;
+      break;
+print(num);  
+
+(6)
+amount = int(input());
+dic53 = {};
+i = 1;
+while amount - (5*i) >= 0:
+  if (amount - (5*i)) % 3 == 0:
+    dic53[i] = (amount - (5*i)) // 3;
+  i += 1;
+if len(list(dic53.keys())) == 0:
+  if amount % 5 == 0:
+    print(amount // 5);
+  elif amount % 3 == 0:
+    print(amount // 3);
+  else:
+    print(-1);
+else:
+  answer = sorted(dic53.items(), key=lambda i : i[0], reverse=True)[0]
+  print(answer[0] + answer[1]);
+
