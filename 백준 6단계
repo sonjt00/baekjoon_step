@@ -1,0 +1,190 @@
+(1)
+print("         ,r'\"7");
+print("r`-_   ,'  ,/");
+print(" \\. \". L_r'");
+print("   `~\\/");S
+print("      |");
+print("      |");
+
+(2)
+past = [1,1,2,2,2,8];
+now = [int(num) for num in input().split()];
+need = [];
+for i in range(len(past)):
+  need.append(past[i] - now[i]);
+for each in need:
+  print("%d" %each, end=" ");
+
+(3)
+num = int(input());
+for i in range(2*num -1):
+  if (i<num):
+    print(" " * (num-i-1), end="");
+    print("*" * (2*i + 1));
+  else:
+    print(" " * (i-num+1), end="");
+    print("*" * ((2*num-1) - 2*(i-num+1)));
+
+(4)
+# 1 2 3 4 5 (begin1, end5, mid3)
+# 3 4 5 1 2
+
+N, M = map(int, input().split());
+bas = [0] * N;
+for i in range(len(bas)):
+  bas[i] = i + 1;
+for i in range(M):
+  s, e, m = map(int, input().split());
+  temp = [];
+  for k in range(m-1, e):
+    temp.append(bas[k]);
+  for k in range(s-1, m-1):
+    temp.append(bas[k]);
+  bas[s-1:e] = temp;
+for ba in bas:
+  print("%d " %(ba), end="");
+
+(5)
+word = input();
+cur = 1;
+for i in range(len(word) // 2):
+  if word[i] != word[len(word)-1-i]:
+    cur = 0;
+print(cur);
+
+(6)
+# Diff between Aa 32
+count = {};
+end = {};
+max = 0;
+word = input();
+for ch in word:
+  if ord(ch) >= 97:
+    ch = ch.upper();
+  if ch in count.keys():
+    count[ch] += 1;
+  else:
+    count[ch] = 1;
+count = dict(sorted(count.items(), key=lambda item:item[1], reverse=True));
+for k,c in count.items():
+  if(c in end.keys()):
+    end[c].append(k);
+  else:
+    end[c] = [k];
+for k in end.keys():
+  if k > max:
+    max = k;
+if len(end[max]) > 1:
+  print("?");
+else:
+  print(end[max][0]);
+
+(7)
+c = int(input());
+for i in range(c):
+  mean = 0;
+  count = 0;
+  inp = [int(num) for num in input().split()];
+  n, scores = inp[0], inp[1:];
+  for i in range(n):
+    mean += scores[i];
+  mean /= n;
+  for score in scores:
+    if (score>mean):
+      count += 1;
+  print("%.3f" %(count/n*100), end="%\n");
+
+(8)
+string = input();
+count = 0;
+i = 0;
+while i < len(string):
+  if i == len(string)-1 :
+    count+= 1;
+  else :
+    if string[i] == 'c':
+      if (string[i+1] == '=') or (string[i+1] == '-'):
+        count += 1;
+        i += 1;
+      else:
+        count += 1;
+    elif string[i] == 'd':
+      if string[i+1] == '-':
+        count += 1;
+        i += 1;
+      elif (string[i+1] == 'z'):
+        if (i+2 <len(string)):
+          if (string[i+2] == '='):
+            count += 1;
+            i += 2;
+          else :
+            count += 1;
+        else :
+          count += 1;
+      else :
+        count += 1;
+    elif string[i] == 'l':
+      if string[i+1] == 'j':
+        count += 1;
+        i += 1;
+      else:
+        count += 1;
+    elif string[i] == 'n':
+      if string[i+1] == 'j':
+        count += 1;
+        i += 1;
+      else:
+        count += 1;
+    elif string[i] == 's':
+      if string[i+1] == '=':
+        count += 1;
+        i += 1;
+      else:
+        count += 1;
+    elif string[i] == 'z':
+      if string[i+1] == '=':
+        count += 1;
+        i += 1;
+      else:
+        count += 1;
+    else:
+      count += 1;
+  i += 1;
+print(count);
+
+(9)
+count = 0;
+for i in range(int(input())):
+  word = input();
+  chars = [];
+  k = 0;
+  yes = 1;
+  while k < len(word):
+    if word[k] not in chars :
+      chars.append(word[k]);
+      k += 1;
+    else:
+      if word[k-1] != word[k]:
+        yes = 0;
+        break;
+      else :
+        k += 1;
+  if yes==1:
+    count += 1;
+print(count);
+
+(10)
+grade = 0.0;
+tier = 0.0;
+dic = {"A+" : 4.5, "A0" : 4.0, "B+" : 3.5, "B0" : 3.0,
+       "C+" : 2.5, "C0" : 2.0, "D+" : 1.5, "D0" : 1.0, "F" : 0.0};
+for i in range(20):
+  name, tmpg, tmpt = input().split();
+  if tmpt != 'P':
+    tmpg = float(tmpg);
+    tmpt = dic[tmpt];
+    befg = grade;
+    grade += tmpg;
+    tier = ((tier*befg) + tmpg*tmpt) / grade;
+print("%.6f" %(tier));
+
