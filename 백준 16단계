@@ -1,0 +1,48 @@
+# 조합론
+
+(1)
+# 서로 다른 n개의 상하의. i번째 상하의는 모두 i색
+count = int(input());
+print((count-1)*count);
+
+(2)
+# 녹색거탑
+layer = int(input());
+print(2**layer);
+
+(3)
+# Functionless Factorial
+N = int(input());
+total = 1;
+while N > 1:
+  total *= N;
+  N -= 1;
+print(total);
+
+(4)
+# 이항 계수 1 nCk
+def fac(n):
+  total = 1;
+  while n > 1:
+    total *= n;
+    n -= 1;
+  return total;
+N, K = map(int, input().split());
+print(int(fac(N) / (fac(N-K)*fac(K))));
+
+(5)
+# 다리 놓기
+def fac(n):
+  total = 1;
+  while n > 1:
+    total *= n;
+    n -= 1;
+  return total;
+def comb(n, m):
+  return fac(n) / (fac(m)*fac(n-m));
+for i in range(int(input())):
+  N, M = map(int, input().split());
+  total = 0;
+  for i in range(N-1, M):
+    total += comb(i, N-1);
+  print(int(total));
