@@ -1,0 +1,259 @@
+# 백트래킹
+
+(1)
+# N과 M (1)
+# DepthFirstSearch
+# 재귀적 알고리즘과 스택 자료구조로 풀어나가기!
+def tracking(nums, stack, target):
+  for i in range(len(nums)):
+    if nums[i] not in stack:
+      stack.append(nums[i])
+      if len(stack)<target:
+        tracking(nums, stack, target)
+        stack.pop()
+      elif len(stack)==target:
+        for num in stack:
+          print(num, end=" ")
+        print("")
+        stack.pop()
+N,M=map(int, input().split())
+nums=[i for i in range(1,N+1)]
+tracking(nums, [], M)
+
+(2)
+# N과 M (2)
+def track(nums, stack, end, target):
+  for num in nums:
+    add=0
+    if len(stack)==0:
+      stack.append(num)
+      add=1
+    else:
+      if len(stack)==0:
+        return
+      if num > stack[-1]:
+        stack.append(num)
+        add=1
+    if add==1:
+      if len(stack) < target:
+        stack = track(nums, stack, end, target)
+        stack.pop()
+      elif len(stack)==target:
+        for i in range(len(stack)):
+          print(stack[i], end=" ")
+        print("")
+        stack.pop()
+  return stack
+N,M=map(int, input().split())
+nums=[i for i in range(1, N+1)]
+nums=track(nums, [], N, M)
+
+(3)
+# N과 M (3)
+def tracking(nums, stack, target):
+  for num in nums:
+    stack.append(num)
+    if len(stack)<target:
+      tracking(nums, stack, target)
+      stack.pop()
+    elif len(stack)==target:
+      for num in stack:
+        print(num, end=" ")
+      print("")
+      stack.pop()
+N,M=map(int, input().split())
+nums=[i for i in range(1,N+1)]
+tracking(nums, [], M)
+
+(4)
+# N과 M (4)
+def track(nums, stack, target):
+  for num in nums:
+    add=0
+    if len(stack)==0:
+      stack.append(num)
+      add=1
+    elif num>=stack[-1]:
+      stack.append(num)
+      add=1
+    if add==1:
+      if len(stack)<target:
+        track(nums, stack, target)
+        stack.pop()
+      elif len(stack)==target:
+        for num in stack:
+          print(num, end=" ")
+        print("")
+        stack.pop()
+N,M=map(int, input().split())
+nums=[i for i in range(1, N+1)]
+track(nums, [], M)
+
+(5)
+# N-Queen
+from collections import deque
+def Queen(N, ys, row, sum):
+  y_set=set(ys)
+  for i in range(row, row+1):
+    for j in range(1, N+1):
+      if len(ys)==0:
+        ys.append(j)
+        sum=Queen(N, ys, i+1, sum)
+        ys.pop()
+      else:
+        if j not in y_set:
+          can=1
+          for d in range(len(ys)):
+            ratio=(d+1-i)/(ys[d]-j)
+            if ratio==1 or ratio==-1:
+              can=0
+              break
+          if can==1:
+            ys.append(j)
+            if len(ys)<N:
+              sum=Queen(N, ys, i+1, sum)
+              ys.pop()
+            elif len(ys)==N:
+              sum+=1
+              ys.pop()
+  return sum
+N=int(input())
+if N==1:
+  print(1)
+elif N==2:
+  print(0)
+elif N==3:
+  print(0)
+else:
+  sum=Queen(N, deque(), 1, 0)
+  print(sum)
+
+(6)
+# N-Queen
+from collections import deque
+def Queen(N, ys, row, sum):
+  y_set=set(ys)
+  for i in range(row, row+1):
+    for j in range(1, N+1):
+      if len(ys)==0:
+        ys.append(j)
+        sum=Queen(N, ys, i+1, sum)
+        ys.pop()
+      else:
+        if j not in y_set:
+          can=1
+          for d in range(len(ys)):
+            ratio=(d+1-i)/(ys[d]-j)
+            if ratio==1 or ratio==-1:
+              can=0
+              break
+          if can==1:
+            ys.append(j)
+            if len(ys)<N:
+              sum=Queen(N, ys, i+1, sum)
+              ys.pop()
+            elif len(ys)==N:
+              sum+=1
+              ys.pop()
+  return sum
+N=int(input())
+if N==1:
+  print(1)
+elif N==2:
+  print(0)
+elif N==3:
+  print(0)
+else:
+  sum=Queen(N, deque(), 1, 0)
+  print(sum)
+
+(7)
+# 연산자 끼워넣기
+
+# (정리 1) 리스트의 슬라이싱은 시간복잡도 O(N)
+# (정리 2) 딕셔너리의 경우 반복문을 제하고는 시간복잡도가 모두 O(1)
+# (정리 3) 시간 초과가 뜰 경우, 딕셔너리를 사용할 방법은 없는지 고민!
+
+# list[0:i] + list[i+1:]의 시간복잡도는
+# i+ N-1-i-1+1 로서
+# N-1, 즉 슬라이싱은 O(N)의 시간복잡도를 가지기 때문에
+# 리스트에서 하나의 중간요소만을 빼기 위해 슬라이싱을 하는 것은 시간효율이 좋지않아
+# 따라서, 이 문제에서는 애초에 연산자를 저장하는 자료구조를 Dict로 선언하여
+# pop(element) dict[element] dict.keys() 등을 활용
+
+import sys
+
+def inserting(nums, ops, ongo, index, max, min):
+  origin=ongo
+  key_origin=list(ops.keys())
+  for o in key_origin:
+    ongo=eval("%d%c%d" %(ongo, o, nums[index]))
+    
+    ops[o]-=1
+    if ops[o]==0:
+      temp=ops.pop(o)
+
+    if len(ops.keys())==0:
+      if ongo > max:
+        max=ongo
+      if ongo < min:
+        min=ongo
+      ops[o]=1
+      return max, min
+    
+    max,min = inserting(nums, ops, ongo, index+1, max, min)
+
+    ongo=origin
+    if o in ops.keys():
+      ops[o]+=1
+    else:
+      ops[o]=1
+  return max, min
+
+N=int(input())
+nums=list(map(int, input().split()))
+count=list(map(int, input().split()))
+ops=dict()
+if count[0]!=0:
+  ops['+']=count[0]
+if count[1]!=0:
+  ops['-']=count[1]
+if count[2]!=0:
+  ops['*']=count[2]
+if count[3]!=0:
+  ops['/']=count[3]
+max, min = inserting(nums, ops, nums[0], 1, -sys.maxsize, sys.maxsize)
+print("%d\n%d" %(max, min))
+
+(8)
+# 스타트와 링크
+def score_diff(ability, N, nums, min, start):
+  for i in range(int(start[-1])+1, int(N/2)+len(start)+2):
+    start.append(nums[i-1])
+    if len(start)==N/2:
+      ss, ls, score = 0,0,0
+      link=list(set(range(1,N+1))-set(start))
+      for p in range(0,len(start)-1):
+        for q in range(p+1, len(start)):
+          ss+=ability[start[p]-1][start[q]-1]
+          ss+=ability[start[q]-1][start[p]-1]
+          ls+=ability[link[p]-1][link[q]-1]
+          ls+=ability[link[q]-1][link[p]-1]
+      score=ss-ls
+      if score<0:
+        score*=-1
+      if score<min:
+        min=score
+    else:
+      temp=score_diff(ability, N, nums, min, start)
+      if temp<min:
+        min=temp
+    tong=start.pop()
+  return min
+
+ability=[]
+N=int(input())
+for _ in range(N):
+  ability.append(list(map(int, input().split())))
+min=score_diff(ability, N, list(range(1, N+1)), 20000, [1])
+print(min)
