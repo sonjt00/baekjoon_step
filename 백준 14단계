@@ -1,0 +1,94 @@
+#집합과 
+
+(1)
+N = int(input());
+has = set(map(int, input().split()));
+M = int(input());
+for num in map(int, input().split()):
+  bef = len(has);
+  has.add(num);
+  aft = len(has);
+  if (aft > bef):
+    print(0, end = " ");
+  else:
+    print(1, end = " ");
+
+(2)
+N, M = map(int, input().split());
+words = [input() for _ in range(N) ];
+count = 0;
+for _ in range(M):
+  if input() in words:
+    count += 1;
+print(count);
+
+(3)
+people = [];
+for _ in range(int(input())):
+  name, act = input().split();
+  if act == 'enter':
+    people.append(name);
+  else:
+    people.remove(name);
+for person in sorted(people, reverse=True):
+  print(person);
+
+(4)
+N, M = map(int, input().split());
+mons_li = [];
+mons_dic = {};
+for i in range(N):
+  mons_li.append(input().rstrip());
+  mons_dic[mons_li[i]] = i;
+for m in range(M):
+  temp = input();
+  if temp.isdigit() == True:
+    print(mons_li[int(temp)-1]);
+  else:
+    print(mons_dic[temp] + 1);
+
+(5)
+N = int(input());
+nums ={};
+for num in map(int, input().split()):
+  if num in nums.keys():
+    nums[num] += 1;
+  else:
+    nums[num] = 1;
+M = int(input());
+for num in map(int, input().split()):
+  if num in nums.keys():
+    print(nums[num], end=" ");
+  else:
+    print(0, end=" ");
+
+(6)
+D, B = map(int, input().split());
+Here = {input() for _ in range(D)};
+both = []
+for _ in range(B):
+  bef = len(Here);
+  temp = input()
+  Here.add(temp);
+  aft = len(Here);
+  if bef == aft:
+    both.append(temp);
+print(len(both));
+for person in sorted(both):
+  print(person);
+
+(7)
+AC, BC = map(int, input().split());
+A = set(map(int, input().split()));
+B = set(map(int, input().split()));
+inter = A&B
+print(len(A.difference(inter)) + len(B.difference(inter)));
+
+(8)
+string = input();
+parts = set();
+for l in range(1, len(string)+1):
+  for i in range(len(string)-l+1):
+    parts.add(string[i:i+l])
+print(len(parts));
+
