@@ -1,0 +1,401 @@
+# 동적 계획법 1
+
+"""
+핵심원리 2가지
+(1) 최적성의 원리 - 하위 문제의 '최적해'가 상위문제의 '최적해'로서 점화식 또는 관계를 가지고 이어진다는 것.
+(2) 점화식 또는 관계를 나타내는데 있어, 메모이제이션과 태뷸레이션을 활용 - 이전 값 필요 시, 추가적 연산 없이 바로 호출 가능
+
+따라서, 동적 계획법 문제를 풀 시에는,
+메모이제이션 또는 태뷸레이션의 각 칸에 "최적해"를 저장하고, 
+각 칸의 인덱스 또는 키값에는 무슨 데이터를 저장할 것으로 생각할지 정하기.
+
+예를 들어 냅색 문제의 경우에는, 각 칸에 들어가는 것이 최대화할 "가치"이고, 
+이를 2차원의 테뷸레이션에 저장할 시, ROW와COLUMN은 '물건의종류', '허용무게'가 될것이다.
+
+ 또 하나의 예시로, LargestCommonSubsequence의 경우, 태뷸레이션 될 값은, 최대길이가 될 것이고, 
+ 2차원의 태뷸레이션의 ROW와COLUMN은 'A문자열의INDEX', 'B문자열의INDEX'가 될것이다.
+ """
+ 
+(1)
+# 알고리즘 수업 - 피보나치 수 1
+N=int(input())
+def recursion(N,count):
+  global count1
+  if N<3:
+    return count+1
+  return count+ recursion(N-1, count) + recursion(N-2, count)
+def dynamic(N, count):
+  global count2
+  memo=[0]*N
+  memo[0],memo[1] = 1, 1
+  for i in range(2, N):
+    memo[i] = memo[i-1]+memo[i-2]
+    count+=1
+  return count
+print(recursion(N,0), dynamic(N,0))
+
+(2)
+# 신나는 함수 실행
+def w(a,b,c, memo):
+  if a<=0 or b<=0 or c<=0:
+    return 1, memo
+  key=str(a)+'/'+str(b)+'/'+str(c)
+  if key in memo.keys():
+    return memo[key], memo
+  if a >20 or b >20 or c>20:
+    num=w(20,20,20, memo)[0]
+    memo[key]=num
+    return num, memo
+  if a<b and b<c:
+    num=w(a,b,c-1, memo)[0] + w(a,b-1,c-1, memo)[0] - w(a,b-1,c, memo)[0]
+    memo[key]=num
+    return num, memo
+  else:
+    num=w(a-1, b, c, memo)[0] + w(a-1, b-1, c, memo)[0] + w(a-1, b, c-1, memo)[0] - w(a-1, b-1, c-1, memo)[0]
+    memo[key]=num
+    return num, memo
+memo={}
+while True:
+  a,b,c=map(int, input().split())
+  if a==-1 and b==-1 and c==-1:
+    break
+  num,memo=w(a,b,c, memo)
+  print("w(%d, %d, %d) = %d" %(a,b,c,num))
+
+
+(3)
+# 01타일
+# 숫자가 클 경우, 메모리도 많이 차지하고, 연산하는데 시간도 많이 걸린다.
+# 숫자는 논리적 오류가 생기지 않는 한에서 가능한 작게 저장한다.
+"""
+https://fuzzysound.github.io/sys-setrecursionlimit
+(N==1,2 제외) N-1의 뒤에 1을 붙인 것 + N-2의 뒤에 00을 붙인 것
+N=1 1
+N=2 11 00
+N=3 111 001 100
+N=4 1111 0011 1001  0000 1100
+N=5 11111 00111 10011 00001 11001 11100 00100 10000
+N=6 111111 001111 100111 000011 110011 111001  001001 100001 111100 001100  110000   100100  000000
+"""
+import sys
+num=int(sys.stdin.readline())
+counts=[0]*1000000
+counts[0], counts[1] = 1, 2
+for i in range(2, num):
+  counts[i]=(counts[i-2]+counts[i-1])%15746
+print(counts[num-1]%15746)
+
+(4)
+# 파도반 수열 
+# f(n-1) + f(n-5)
+lens=[1,1,1,2,2]
+for i in range(int(input())):
+  N=int(input())
+  if N-1>=len(lens):
+    for k in range(len(lens), N+1):
+      lens.append(lens[k-1]+lens[k-5])
+  print(lens[N-1])
+
+(5)
+# 연속합
+# 다이내믹 프로그래밍으로 풀지 않아도, 시간적 효율이 좋을 수도 있다.
+N=int(input())
+nums=list(map(int, input().split()))
+max=-1001
+ongo=0
+for num in nums:
+  if num>0:
+    if max==-1001:
+      max=num
+      ongo=num
+    else:
+      ongo+=num
+      if ongo>max:
+        max=ongo
+  else:
+    ongo+=num
+    if ongo<0:
+      ongo=0
+    if max<num:
+      max=num
+print(max)
+
+(6)
+# RGB거리
+# 주어진 변수를 작게 하여 소문제로 세분화한다음
+# 소문제를 해결한 논리를 큰 문제를 해결하는 논리로 귀결한다.
+N=int(input())
+houses=[]
+houses.append(list(map(int, input().split())))
+for i in range(1,N):
+  R,G,B=map(int, input().split())
+  temp=[]
+  temp.append(min(R+houses[i-1][1], R+houses[i-1][2]))
+  temp.append(min(G+houses[i-1][0], G+houses[i-1][2]))
+  temp.append(min(B+houses[i-1][0], B+houses[i-1][1]))
+  houses.append(temp)
+print(min(houses[N-1]))
+
+(7)
+# 정수 삼각형
+N=int(input())
+tri=[]
+for i in range(N):
+  tri.append(list(map(int, input().split())))
+for i in range(N-1):
+  for e in range(i+1):
+    if e==0:
+      tri[i+1][e]+=tri[i][e]
+      tri[i+1][e+1]+=tri[i][e]
+    else:
+      new=tri[i][e]+(tri[i+1][e]-tri[i][e-1])
+      if tri[i+1][e]<new:
+        tri[i+1][e]=new
+      tri[i+1][e+1]+=tri[i][e]
+print(max(tri[-1]))
+
+(8)
+# 계단 오르기
+"""
+N-2를 밟은 값 (N-2까지의 최댓값 + N)
+N-1을 밟은 값 (N-3까지의 최댓값 + N-1 + N)
+"""
+N=int(input())
+scos=[int(input()) for _ in range(N)]
+if N<3:
+  print(sum(scos))
+else:
+  n_2=scos[0]+scos[2]
+  n_1=scos[1]+scos[2]
+  if N==3:
+    if n_2>n_1:
+      print(n_2)
+    else:
+      print(n_1)
+  else:
+    scos[1]=scos[0]+scos[1]
+    if n_2>n_1:
+      temp=n_2
+    else:
+      temp=n_1
+    for i in range(3, N):
+      n_2=scos[i-2]+scos[i]
+      n_1=scos[i-3]+scos[i-1]+scos[i]
+      scos[i-1]=temp
+      if n_2>n_1:
+        temp=n_2
+      else:
+        temp=n_1
+    print(temp)
+
+(9)
+# 1로 만들기
+# Dict형 메모리제이션을 통해 저장해두기
+# 완전탐색할 시, 시간초과가 뜰 경우
+# 중복탐색시간을 메모리제이션을 통해 줄여야한다.
+memo={1:0}
+def reduce(N):
+  global memo
+  if N in memo.keys():
+    return memo[N]
+  if N%3==0:
+    if N%2==0:
+      memo[N]=min([reduce(N/3)+1, reduce(N/2)+1])
+      return memo[N]
+    else:
+      memo[N]=min([reduce(N/3)+1, reduce(N-1)+1])
+      return memo[N]
+  else:
+    if N%2==0:
+      memo[N]=min([reduce(N/2)+1, reduce(N-1)+1])
+      return memo[N]
+    else:
+      memo[N]=reduce(N-1)+1
+      return memo[N]
+num=int(input())
+reduce(num)
+
+(10)
+# 쉬운 계단 수
+# Memoization, Tabulation 1차원리스트,2차원리스트,딕셔너리 등 상황에 맞게 사용!
+# 딕셔너리가 동일 데이터의 갯수 등을 저장할 경우
+# 적은 공간복잡도를 지니기에, 그에 따라 자료구조에 대한 연산도
+# 적은 시간복잡도를 지닌다. 
+N=int(input())
+stairs={
+    0:0, 1:1, 2:1, 3:1, 4:1, 
+    5:1, 6:1, 7:1, 8:1, 9:1
+}
+for i in range(N-1):
+  new={0:0, 1:0, 2:0, 3:0, 4:0, 
+    5:0, 6:0, 7:0, 8:0, 9:0}
+  for last in stairs.keys():
+    if last==0:
+      new[1]+=stairs[last]
+    elif last==9:
+      new[8]+=stairs[last]
+    else:
+      new[last+1]+=stairs[last]
+      new[last-1]+=stairs[last]
+  stairs.clear()
+  stairs=new
+total=0
+for k in stairs.keys():
+  total+=stairs[k]
+print(int(total%1000000000))
+
+(11)
+# 포도주
+"""
+N-1 최댓값이 연속일 경우
+  둘 중 비교
+(1) N-1최댓값
+(2) N-2최댓값 + N
+(3) N-3최댓값 + N-1 + N
+연속이 아닐 경우
+(1) N-1최대값 + N
+"""
+N=int(input())
+amounts=[]
+for _ in range(N):
+  amounts.append(int(input()))
+if N<3:
+  print(sum(amounts))
+else:
+  sum0_1=amounts[0]+amounts[1]
+  sum0_2=amounts[0]+amounts[2]
+  sum1_2=amounts[1]+amounts[2]
+  if N==3:
+    print(max([sum0_1, sum0_2, sum1_2]))
+  else:
+    cur={}
+    if sum0_1>sum0_2 and sum0_1>sum1_2:
+      cur[0]=amounts[0]
+      cur[1]=amounts[1]
+    elif sum0_2>sum0_1 and sum0_2>sum1_2:
+      cur[0]=amounts[0]
+      cur[2]=amounts[2]
+    else:
+      cur[1]=amounts[1]
+      cur[2]=amounts[2]
+    amounts[1]=amounts[0]+amounts[1]
+    for i in range(3, N):
+      cur_nums=list(cur.keys())
+      if i-2 in cur_nums and i-1 in cur_nums:
+        fir=0
+        for num in cur_nums:
+          fir+=cur[num]
+        sec=amounts[i-2]+amounts[i]
+        thir=amounts[i-3]+amounts[i-1]+amounts[i]
+        if sec > fir and sec>thir:
+          cur.clear()
+          cur[i-2]=amounts[i-2]
+          cur[i]=amounts[i]
+        elif thir>fir and thir>sec:
+          cur.clear()
+          cur[i-3]=amounts[i-3]
+          cur[i-1]=amounts[i-1]
+          cur[i]=amounts[i]
+        elif sec==thir and sec>fir:
+          cur.clear()
+          cur[i-2]=amounts[i-2]
+          cur[i]=amounts[i]
+        amounts[i-1]=fir
+      else:
+        fir=0
+        for num in list(cur.keys()):
+          fir+=cur[num]
+        amounts[i-1]=fir
+        cur[i]=amounts[i]
+    total=0
+    for k in cur.keys():
+      total+=cur[k]
+    print(total)
+
+(12)
+# 가장 긴 증가하는 부분 수열
+# 1 2 5 50 15 16 17 18 19
+# 숫자가 들어오면 해당 자리 숫자의 최대길이값 저장
+N=int(input())
+nums=list(map(int, input().split()))
+memo={nums[0]:1}
+for i in range(1, N):
+  max=0
+  for last in list(memo.keys()):
+    if last<nums[i]:
+      if memo[last]>max:
+        max=memo[last]
+  memo[nums[i]]=max+1
+print(sorted(memo.values())[-1])
+
+(13)
+# 가장 긴 바이토닉 부분 수열
+# leftLength rightLength
+# 즉 바이토닉의 좌측과 우측을 두번의 반복을 통해 따로 구한다
+# (1) 좌측(0~N-1) (2) 우측(N-1~0)
+N=int(input())
+nums=list(map(int, input().split()))
+# index : [lastValue, leftLength, rightLength]
+memo={0: [nums[0], 1, 0]}
+answ=0
+# leftLength
+for i in range(1,N):
+  max=0
+  for index in list(memo.keys()):
+    if memo[index][0]<nums[i] and memo[index][1]>max:
+      max=memo[index][1]
+  memo[i]=[nums[i], max+1, 0]
+# rightLength
+memo[N-1][2]=1
+for i in range(N-1,-1, -1):
+  leng=0
+  for k in range(N-1-i):
+    if memo[N-1-k][0]<memo[i][0] and memo[N-1-k][2]>leng:
+      leng=memo[N-1-k][2]
+    memo[i][2]=leng+1
+  if memo[i][1]+memo[i][2]-1>answ:
+    answ=memo[i][1]+memo[i][2]-1
+print(answ)
+
+(14)
+# 전깃줄
+N=int(input())
+lines=[]
+dp=[1]*N
+for n in range(N):
+  lines.append(list(map(int, input().split())))
+lines=sorted(lines, key=lambda x:x[0])
+for n in range(N):
+  for k in range(n):
+    if lines[k][1]<lines[n][1]:
+      dp[n]=max(dp[n], dp[k]+1)
+print(N-max(dp))
+
+(15)
+# LCS
+X=input()
+Y=input()
+dp= [[0]*(len(Y)+1) for _ in range(len(X)+1)]
+for i in range(len(X)):
+  for k in range(len(Y)):
+    if X[i]==Y[k]:
+      dp[i+1][k+1]=dp[i][k]+1
+    else:
+      dp[i+1][k+1]=max(dp[i+1][k], dp[i][k+1])
+print(dp[-1][-1])
+
+(16)
+# 평범한 배낭
+# 3,6   4,8   5,12  6,13
+N,K=map(int, input().split())
+goods=[list(map(int, input().split())) for n in range(N)]
+memo=[[0]*(K+1) for n in range(N+1)]
+for n in range(1,N+1):
+  w,v = goods[n-1]
+  for k in range(1, K+1):
+    if w>k:
+      memo[n][k]=memo[n-1][k]
+    else:
+      memo[n][k]=max(memo[n-1][k], v+memo[n-1][k-w])
+print(memo[-1][-1])
+
